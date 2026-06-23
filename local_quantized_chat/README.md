@@ -31,26 +31,30 @@ Start with `0.5b`. Move to `1.5b` after confirming that the installation works.
 
 Install Python 3.11 or 3.12. On Apple Silicon, ensure that Python itself is ARM64, not an Intel/x86 build running through Rosetta.
 
-Install Apple's command-line tools:
+I prefer to start with miniforge so that multiple python environments can exist of on my Mac. If miniforge is not installed, go ahead and install it.
 
 ```bash
-xcode-select --install
-```
-
-Homebrew users can install CMake:
-
-```bash
-brew install cmake
+brew install --cask miniforge
 ```
 
 ### 2. Create a virtual environment
 
+Start off by installing llama.cpp
 ```bash
-cd local_quantized_chat
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip setuptools wheel
+brew install llama.cpp
 ```
+Next create a conda environment with the correct version of Python. Currently, gwen requires python 11 or 12 only.
+```bash
+conda create -n localchat python=3.11 -y
+conda activate localchat
+```
+Use pip to install remaining libraries.
+```bash
+ python -m venv venv
+ source ./venv/bin/activate
+ python -m pip install --upgrade pip setuptools wheel
+```
+
 
 ### 3. Install on an Apple Silicon Mac with Metal
 
@@ -60,8 +64,9 @@ pip install --upgrade --force-reinstall llama-cpp-python --no-cache-dir
 
 pip install "huggingface-hub>=0.24"
 ```
-
 Some current wheels/builds may enable Metal automatically. The explicit build flag makes the requested backend unambiguous.
+
+
 
 ### 4. Run
 
